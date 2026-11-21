@@ -36,7 +36,7 @@ missing = [
     f"{folder}/{name}.csv"
     for folder, names in required.items()
     for name in names
-    if not (ROOT / folder / f"{name}.csv").exists()
+    if not (ROOT / folder / f"{name}.csv").exists() and not (ROOT / folder / f"{name}.csv.gz").exists()
 ]
 if missing:
     st.title(T("Panel gerencial: versión completa", "Management cockpit: complete edition"))
@@ -53,7 +53,9 @@ if missing:
 
 @st.cache_data(show_spinner=False)
 def read(name, folder="data"):
-    return pd.read_csv(ROOT / folder / f"{name}.csv")
+    raw = ROOT / folder / f"{name}.csv"
+    compressed = ROOT / folder / f"{name}.csv.gz"
+    return pd.read_csv(raw if raw.exists() else compressed)
 
 products = read("dim_product")[["sku", "product_name", "category"]]
 locations = read("dim_location")
