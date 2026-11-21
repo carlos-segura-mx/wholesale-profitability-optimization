@@ -30,9 +30,9 @@ That distinction matters. Recovering sales does not mean all of those sales beco
 
 [**Open the Streamlit app**](https://wholesale-profitability-optimization-uenabzltjvquoxm2k5yg2p.streamlit.app/)
 
-The published version lets you compare branches, adjust alert thresholds and explore scenario sensitivity. It is an executive view based on aggregated annual figures.
+The dashboard now includes all four case modules. I can compare results by month, branch and category, examine products and inventory, adjust management thresholds and explore the financial effect of a replenishment decision.
 
-The four-module dashboard code is also available in this repository, but the detailed version still needs its data files and cloud testing. I would rather make that distinction clear than describe a partial view as a finished release.
+The detailed dataset is part of the repository. All four modules have passed automated functional tests in Spanish and English.
 
 ## Scope and limitations
 
@@ -42,13 +42,13 @@ The financial reconciliation covers the full network and year. Filtered scenario
 
 ## Tools and local setup
 
-I used Python, pandas, Plotly and Streamlit. To run the available dashboard:
+I used Python, pandas, Plotly and Streamlit. To run the full dashboard:
 
 ```bash
 python -m pip install -r requirements.txt
 streamlit run preview.py
 ```
 
-The app supports Spanish and English. Instructions for deploying the full version are in the separate [technical notes](DEPLOY.en.md).
+The app supports Spanish and English. The data-generation process and integrity checks are documented in the [technical notes](DEPLOY.en.md).
 
 **Carlos Segura** | CS Intelligence
