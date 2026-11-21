@@ -1,6 +1,25 @@
 """Bilingual executive preview of a fictional wholesale business.
 Vista ejecutiva bilingue de una distribuidora ficticia.
 """
+from pathlib import Path as _Path
+import runpy as _runpy
+
+# EN: Launch the four-module cockpit only after all verified files arrive.
+# ES: Iniciar los cuatro módulos solo después de contar con todos los archivos.
+_ROOT = _Path(__file__).resolve().parent
+_REQUIRED = [
+    "data/dim_location.csv.gz", "data/dim_product.csv.gz",
+    "data/fact_sales.csv.gz", "data/fact_demand.csv.gz",
+    "data/fact_budget.csv.gz", "data/fact_operating_expense.csv.gz",
+    "data/fact_traffic.csv.gz", "data/fact_inventory_snapshot.csv.gz",
+    "data/fact_ticket.csv.gz", "data/fact_operations_monthly.csv.gz",
+    "results_shelf_only/ticket_deltas.csv.gz",
+]
+if all((_ROOT / p).exists() for p in _REQUIRED):
+    _runpy.run_path(str(_ROOT / "app_full_bilingue.py"), run_name="__main__")
+    import streamlit as _st
+    _st.stop()
+
 import pandas as pd
 import plotly.express as px
 import streamlit as st
