@@ -46,9 +46,9 @@ with tab1:
     st.caption("Operating contribution = net sales − synthetic cost of goods sold − modeled operating expenses. This is not cash flow or audited profit.")
 with tab2:
     alerts=[]
-    for r in s.itertuples(index=False):
-        if r.Attainment < target/100: alerts.append((r.Branch,"Sales below budget target",round(r.Attainment*100,2),target))
-        if getattr(r,"Fill_rate") < fill/100: alerts.append((r.Branch,"Fill rate below threshold",round(getattr(r,"Fill_rate")*100,2),fill))
+    for _,r in s.iterrows():
+        if r["Attainment"] < target/100: alerts.append((r["Branch"],"Sales below budget target",round(r["Attainment"]*100,2),target))
+        if r["Fill rate"] < fill/100: alerts.append((r["Branch"],"Fill rate below threshold",round(r["Fill rate"]*100,2),fill))
     st.write(f"{len(alerts)} screening alert(s) under your targets.")
     if alerts: st.dataframe(pd.DataFrame(alerts,columns=["Branch","Signal","Observed %","Threshold %"]),hide_index=True,use_container_width=True)
     else: st.success("No selected branch breached these two thresholds.")
