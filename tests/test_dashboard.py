@@ -37,5 +37,11 @@ def run():
     assert "Wholesale Management Cockpit" in [x.value for x in at.title]
     print("PASS: English dashboard loads")
 
+    # Test the actual entrypoint selected in Streamlit Community Cloud.
+    deployed = AppTest.from_file(str(Path(__file__).resolve().parents[1] / "preview.py"), default_timeout=90).run()
+    assert_clean(deployed, "Public entrypoint")
+    assert "Control de rentabilidad mayorista" in [x.value for x in deployed.title], [x.value for x in deployed.title]
+    print("PASS: public entrypoint loads the complete dashboard")
+
 if __name__ == "__main__":
     run()
