@@ -1,0 +1,86 @@
+name: Build and publish verified synthetic data
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/build-data.yml'
+      - 'scripts/generate_case_data.py'
+      - 'scripts/replay_source.zlib.b64'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: wholesale-synthetic-data-main
+  cancel-in-progress: false
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Prepare Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: python -m pip install pandas==2.2.3 numpy==2.3.5
+      - name: Restore exact scenario model and verify source
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import base64,hashlib,zlib
+          source=Path("scripts/replay_source.zlib.b64")
+          content=zlib.decompress(base64.b64decode("".join(source.read_text().split())))
+          expected="fb0e425b9248ddd82eaacc04b05c6db6c5bad8f9a72afd6c00848e878709df61"
+          assert hashlib.sha256(content).hexdigest()==expected, "Unexpected scenario source"
+          Path("scripts/replay_case.py").write_bytes(content)
+          print("Escenario recuperado / Scenario source verified")
+          PY
+      - name: Build deterministic synthetic operation
+        run: python scripts/generate_case_data.py --output generated_data
+      - name: Run chronological scenario model
+        run: python scripts/replay_case.py --data generated_data --output generated_scenario
+      - name: Verify the 11 original files and compress
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import gzip,hashlib,shutil
+          expected={
+            "data/fact_sales.csv":"fef1740256420c4a2b968e6b11fb86e489a44285bfec773a1b88f9ec19b124b1",
+            "data/fact_demand.csv":"4174da2cefc5fd8178486ff69f99b571480bcf12ceb8f170c26467faf6450b72",
+            "data/fact_budget.csv":"dfba25d6365f665b4879e330986a964e85b55b20278e5dac45b42e2f5e7030c8",
+            "data/fact_traffic.csv":"9c7f9709ac489d0e1d0e1eee61bb4930819410a0d648a5f5b24b6bdf875b82e5",
+            "data/fact_operating_expense.csv":"4246d3f6f3174297ee10b8591769f37ae818e07fb93354de5aea0e1f95505a4b",
+            "data/dim_product.csv":"d6bec8060049a0d8ff86e35e63d880e7c73a731e57d038383a334297767aa2b8",
+            "data/dim_location.csv":"bb31e4dcfafc81c970d339b762b6df90b1e671af0663a8a3f1e8ff6940aa206a",
+            "data/fact_inventory_snapshot.csv":"1bbdb75c76ee169b225d165f8d4b39dbc60480810708b58d319510950d9b8734",
+            "data/fact_ticket.csv":"cdc2248546ead993aa7436a9a6789ede3f750bb722b3a28b61ad0c7a52f635c0",
+            "data/fact_operations_monthly.csv":"e578f3e5419b7d55100c218f58d2289f08e41790bd1c74464b56b2ad7c2bbc24",
+            "results_shelf_only/ticket_deltas.csv":"0d755b4e86f47d68338bad207e031f82c897f92378c12a2b2787bba8899e4393"
+          }
+          for rel,digest in expected.items():
+              base=Path("generated_scenario") if rel.startswith("results_shelf_only/") else Path("generated_data")
+              source=base/Path(rel).name
+              actual=hashlib.sha256(source.read_bytes()).hexdigest()
+              if actual!=digest:raise SystemExit(f"Checksum mismatch: {rel} ({actual})")
+              dest=Path(rel+".gz")
+              dest.parent.mkdir(parents=True,exist_ok=True)
+              with source.open("rb") as f, dest.open("wb") as o:
+                  with gzip.GzipFile(filename="",mode="wb",fileobj=o,mtime=0,compresslevel=9) as z:
+                      shutil.copyfileobj(f,z)
+              print("Verified",rel,dest.stat().st_size)
+          PY
+      - name: Commit complete dataset and readable source
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add scripts/replay_case.py data/*.csv.gz results_shelf_only/*.csv.gz
+          git rm -- scripts/replay_source.zlib.b64
+          git diff --cached --quiet && exit 0
+          git commit -m "Publish verified synthetic dataset / Publicar datos verificados"
+          git push
