@@ -2,9 +2,10 @@
 
 Tests run against the verified, synthetic data files in this repository.
 """
+from pathlib import Path
 from streamlit.testing.v1 import AppTest
 
-APP = "app_full_bilingue.py"
+APP = str(Path(__file__).resolve().parents[1] / "app_full_bilingue.py")
 MODULES = ("summary", "commercial", "inventory", "scenario")
 
 def assert_clean(at, context):
