@@ -1,44 +1,44 @@
-# Despliegue y archivos del dashboard
+# Datos y despliegue del dashboard
 
 [English](DEPLOY.en.md) | [Presentación del caso](README.es.md)
 
-## Estado actual
+## Aplicación
 
-El punto de entrada público es `preview.py`. Mientras falten los archivos de datos detallados, muestra una versión ejecutiva agregada. Cuando están presentes los once archivos requeridos, inicia el tablero de cuatro módulos desde `app_full_bilingue.py`.
+El repositorio contiene el Management Cockpit de cuatro módulos con datos sintéticos de 2025. El punto de entrada de Streamlit es `preview.py`, que utiliza `app_full_bilingue.py` cuando encuentra los once archivos de detalle. Esos archivos ya están incorporados en la rama `main`.
 
-Ambas versiones permiten elegir español o inglés. Los datos corresponden a una operación simulada de 2025.
+La aplicación tiene selector de idioma para español e inglés. Los módulos cubren resumen ejecutivo, desempeño comercial, inventario y evaluación de escenarios.
 
 ## Ejecutar localmente
 
-Se requiere Python 3.10 o posterior.
+Con Python 3.10 o posterior:
 
 ```bash
 python -m pip install -r requirements.txt
 streamlit run preview.py
 ```
 
-La vista agregada funciona sin datos externos. Para los cuatro módulos completos, el repositorio necesita los CSV comprimidos en `data/` y `results_shelf_only/`.
+No hace falta descargar datos por separado. Los archivos CSV comprimidos están en `data/` y `results_shelf_only/`; pandas los lee directamente.
 
-## Incorporar los datos detallados
+## Reproducción y verificaciones
 
-El archivo `PORT01_PUBLIC_SYNTHETIC_DATA.zip` contiene once CSV sintéticos y se utiliza como paquete de entrada del flujo de GitHub Actions.
+La fuente de datos está construida a partir de dos programas:
 
-1. Cargar el ZIP validado en la raíz de la rama `main`.
-2. Consultar la ejecución de [publish-data.yml](../.github/workflows/publish-data.yml) en la pestaña **Actions**.
-3. Confirmar que finalicen las validaciones de integridad SHA-256 y los controles de ventas y surtido.
-4. Verificar que el flujo haya incorporado los CSV comprimidos y retirado el ZIP de la versión actual.
-5. Comprobar en Streamlit que abren los cuatro módulos, que responden los filtros y que el escenario se comporta según su alcance.
+- `scripts/generate_case_data.py`: crea la operación sintética completa usando una semilla fija.
+- `scripts/replay_case.py`: reproduce el escenario de reposición de anaquel con `--extra-dispatch 0`.
 
-La carga no se considera terminada hasta comprobar estos pasos. Si faltan archivos, la aplicación sigue mostrando la vista resumida. No deben mezclarse estos datos sintéticos con información ajena al caso.
+El flujo [build-data.yml](../.github/workflows/build-data.yml) vuelve a generar ambos conjuntos y contrasta las huellas SHA-256 de los once archivos originales antes de publicarlos. El escenario aprobado es exclusivamente de reposición de anaquel, sin despachos extraordinarios desde el centro de distribución.
 
-## Estructura útil
+El flujo [checks.yml](../.github/workflows/checks.yml) revisa la sintaxis, instala las dependencias y ejecuta pruebas funcionales de los cuatro módulos y ambos idiomas.
 
-- `preview.py`: entrada a Streamlit y selección automática de versión.
-- `preview_bilingue.py`: vista ejecutiva independiente.
-- `app_full_bilingue.py`: análisis de cuatro módulos.
-- `scripts/import_public_data.py`: verificación e importación del paquete.
-- `.github/workflows/`: pruebas de código y publicación de datos.
+La generación y las pruebas se completaron correctamente el 21 de noviembre de 2026. Esas comprobaciones se realizaron en GitHub Actions. La revisión visual de la instancia pública de Streamlit se realiza por separado.
 
-**Estado:** La aplicación resumida se observó funcionando online. La versión completa sigue pendiente de cargar datos y realizar pruebas visuales.
+## Archivos principales
+
+- `preview.py`: punto de entrada y selección de versión.
+- `app_full_bilingue.py`: dashboard completo.
+- `preview_bilingue.py`: respaldo ejecutivo agregado.
+- `data/*.csv.gz`: información comercial y de inventario sintética.
+- `results_shelf_only/ticket_deltas.csv.gz`: resultados por transacción del escenario.
+- `tests/test_dashboard.py`: prueba funcional de módulos e idiomas.
 
 Carlos Segura | CS Intelligence
