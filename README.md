@@ -29,15 +29,15 @@
 
 [**Abrir el dashboard / Open the dashboard**](https://wholesale-profitability-optimization-uenabzltjvquoxm2k5yg2p.streamlit.app/)
 
-La versión online incluye indicadores por sucursal, alertas configurables y sensibilidad económica del escenario. El análisis completo contempla también desempeño por producto e inventario. Su despliegue con datos de detalle aún está pendiente.
+El tablero reúne los cuatro módulos del caso: resumen ejecutivo, desempeño comercial, inventario y laboratorio de escenarios. Permite explorar resultados por periodo, sucursal y categoría. Los datos de detalle ya están integrados en el repositorio.
 
-The live version includes branch KPIs, adjustable alerts and scenario sensitivity. The complete analysis also covers product-level performance and inventory. Deployment with detailed data is still pending.
+The dashboard brings together all four case modules: executive overview, commercial performance, inventory and scenario analysis. You can explore results by period, branch and category. The detailed synthetic data are included in the repository.
 
 ## Código | Code
 
-Python, pandas, Plotly y Streamlit. Para ejecutar la versión online desde el repositorio:
+Python, pandas, Plotly y Streamlit. Para ejecutar el dashboard completo desde el repositorio:
 
-Python, pandas, Plotly and Streamlit. To run the current online version from the repository:
+Python, pandas, Plotly and Streamlit. To run the complete dashboard from the repository:
 
 ```bash
 python -m pip install -r requirements.txt
