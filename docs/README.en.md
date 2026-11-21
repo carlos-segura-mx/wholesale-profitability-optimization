@@ -41,3 +41,12 @@ Choose **Español** or **English** in the sidebar. The preview uses precomputed 
 This repository separates public aggregated results from the underlying technical case files. It does not contain commercial records from real companies. Scenario assumptions and limitations are made explicit, without attributing results to an existing organization.
 
 **Author:** Carlos Segura | CS Intelligence
+
+
+## Enable all four modules
+
+The complete dashboard code is in [app_full_bilingue.py](../app_full_bilingue.py). It becomes active automatically once all eleven verified synthetic data files are available in the repository.
+
+Upload **PORT01_PUBLIC_SYNTHETIC_DATA.zip** to the root of the `main` branch using GitHub's *Add file > Upload files* option. The [publish-data.yml](../.github/workflows/publish-data.yml) workflow checks the SHA-256 hashes, writes compressed CSV files, and removes the ZIP from the latest branch state. The existing Streamlit URL can then serve the four-module application after the deployment updates.
+
+Only use the validated synthetic data archive prepared for this case. Do not upload client files or the private Santos Lugo pricing lab. If validation fails, the app continues to show the shorter executive preview.
