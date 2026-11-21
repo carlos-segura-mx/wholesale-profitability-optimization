@@ -12,7 +12,7 @@ The source package contains a four-module Streamlit application:
 3. **Inventory & Availability:** demand fill rate, unfulfilled demand, closing inventory, and operational diagnostics.
 4. **Scenario Lab:** shelf-replenishment counterfactuals with explicit additional-cost and realization assumptions.
 
-**Publication status:** Repository preparation begun; the full application and synthetic CSV data are not yet uploaded. No live Streamlit URL is claimed. Do not treat this README as a deployed dashboard.
+**Publication status (2026-11-21):** An interactive **aggregated synthetic executive preview** is committed as [`preview.py`](preview.py). It contains reconciled annual branch-level financial and fill-rate aggregates and whole-network scenario sensitivity; it does **not** replace the complete four-module dashboard. The original `app.py`, `monitoring.py`, and CSV data are available in the separately archived dashboard package and have not been uploaded to this repo. **The online deployment and browser checks remain pending.**
 
 ## Analytical evidence and limitations
 
@@ -22,16 +22,16 @@ The shelf-only counterfactual produces **4,004 recovered units**, **2,525 displa
 
 There are no authentic transactions, prices, customers, inventory records, or internal datasets from Casa Santos Lugo or any other business.
 
-## Deployment instructions (when all app files are present)
+## Deploy the lightweight executive preview now
 
 Run locally:
 
 ```bash
 python -m pip install -r requirements.txt
-streamlit run app.py
+streamlit run preview.py
 ```
 
-Deploy on [Streamlit Community Cloud](https://share.streamlit.io/) using this GitHub repository, branch `main`, and entrypoint `app.py`. The deployment URL will be inserted here **only after it has been verified**.
+Deploy on [Streamlit Community Cloud](https://share.streamlit.io/) using this GitHub repository, branch `main`, and entrypoint `preview.py`. Once the full package is uploaded and tested, switch to `app.py` only after its data dependencies are present. The deployment URL will be inserted here **only after it has been verified**.
 
 ## Provenance and scope
 
