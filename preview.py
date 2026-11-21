@@ -1,68 +1,128 @@
-"""Lightweight public snapshot of PORT-01. Entirely synthetic data."""
+"""Bilingual executive preview of a fictional wholesale business.
+Vista ejecutiva bilingue de una distribuidora ficticia.
+"""
 import pandas as pd
 import plotly.express as px
 import streamlit as st
 
-st.set_page_config(page_title="Wholesale Profitability | Executive Preview",page_icon="📊",layout="wide")
-st.title("Wholesale Profitability Optimization")
-st.caption("CS Intelligence · Interactive executive preview · 2025 · 100% synthetic · Not affiliated with a real wholesaler")
-st.warning("This is an aggregated snapshot preview, not the full four-module Management Cockpit. Original transaction-level filtering, stock snapshots and operational simulation are not available in this preview.")
+st.set_page_config(page_title="Wholesale Profitability | Rentabilidad mayorista",page_icon="📊",layout="wide")
+lang=st.sidebar.radio("Idioma / Language",["Español","English"],horizontal=True)
+def L(es,en):
+    return es if lang=="Español" else en
 
-# Annual figures reconciled from the approved synthetic v0.7 model.
-data=[
+st.title(L("Optimización de rentabilidad mayorista","Wholesale Profitability Optimization"))
+st.caption(L(
+    "CS Intelligence | Vista ejecutiva interactiva | 2025 | Datos 100 % sintéticos | Sin relación con empresas reales",
+    "CS Intelligence | Interactive executive preview | 2025 | 100% synthetic data | No connection to real businesses"
+))
+st.warning(L(
+    "Esta versión usa cifras anuales agregadas. El análisis transaccional, los cortes de inventario y la simulación operativa del caso completo aún no están disponibles aquí.",
+    "This preview uses aggregated annual figures. Transaction-level analysis, inventory snapshots, and the full operational simulation are not yet available here."
+))
+
+rows=[
 ("B1",12358385.84,8252533.43,31134,29708,11976374.13,887760),
 ("B2",12971236.25,8655052.97,32796,31212,12877821.63,924750),
 ("B3",14157888.95,9427360.28,35634,33739,13779269.15,961740),
 ("B4",14927631.73,9967517.18,37831,35726,14680716.65,998730)]
-df=pd.DataFrame(data,columns=["Branch","Net sales","COGS","Requested units","Fulfilled units","Sales budget","Operating expenses"])
-df["Gross profit"]=df["Net sales"]-df["COGS"]
-df["Operating contribution"]=df["Gross profit"]-df["Operating expenses"]
-df["Fill rate"]=df["Fulfilled units"]/df["Requested units"]
-df["Attainment"]=df["Net sales"]/df["Sales budget"]
+df=pd.DataFrame(rows,columns=["Sucursal","Ventas netas","Costo de venta","Unidades solicitadas","Unidades surtidas","Presupuesto de ventas","Gasto operativo"])
+df["Utilidad bruta"]=df["Ventas netas"]-df["Costo de venta"]
+df["Contribución operativa"]=df["Utilidad bruta"]-df["Gasto operativo"]
+df["Nivel de surtido"]=df["Unidades surtidas"]/df["Unidades solicitadas"]
+df["Cumplimiento"]=df["Ventas netas"]/df["Presupuesto de ventas"]
 
 with st.sidebar:
-    st.header("Executive filters")
-    choices=st.multiselect("Fictional branches",list(df.Branch),default=list(df.Branch))
-    target=st.slider("Sales attainment target (%)",80,120,100)
-    fill=st.slider("Fill-rate target (%)",85,100,97)
-    st.caption("Changing targets changes screening alerts only; financial figures are precomputed synthetic annual totals.")
-s=df[df.Branch.isin(choices)].copy()
-if s.empty:
-    st.info("Select at least one branch.")
+    st.header(L("Filtros ejecutivos","Executive filters"))
+    branches=st.multiselect(L("Sucursales ficticias","Fictional branches"),df["Sucursal"].tolist(),default=df["Sucursal"].tolist())
+    target=st.slider(L("Meta de cumplimiento de ventas (%)","Sales attainment target (%)"),80,120,100)
+    fill=st.slider(L("Meta de nivel de surtido (%)","Demand fill-rate target (%)"),85,100,97)
+    st.caption(L(
+        "Las metas modifican las alertas, no los importes financieros precalculados.",
+        "Targets affect screening alerts, not the precomputed financial figures."
+    ))
+
+selected=df[df["Sucursal"].isin(branches)]
+if selected.empty:
+    st.info(L("Selecciona al menos una sucursal.","Select at least one branch."))
     st.stop()
-sales=s["Net sales"].sum()
-gp=s["Gross profit"].sum()
-requested=s["Requested units"].sum()
-fulfilled=s["Fulfilled units"].sum()
+
+sales=selected["Ventas netas"].sum()
+gp=selected["Utilidad bruta"].sum()
+requested=selected["Unidades solicitadas"].sum()
+fulfilled=selected["Unidades surtidas"].sum()
 c1,c2,c3,c4=st.columns(4)
-c1.metric("Net sales",f"MXN {sales/1e6:,.2f}M")
-c2.metric("Gross margin",f"{gp/sales:.1%}")
-c3.metric("Operating contribution",f"MXN {s['Operating contribution'].sum()/1e6:,.2f}M")
-c4.metric("Demand fill rate",f"{fulfilled/requested:.2%}")
-tab1,tab2,tab3=st.tabs(["Branch performance","Management signals","Scenario sensitivity"])
+c1.metric(L("Ventas netas","Net sales"),f"MXN {sales/1e6:,.2f}M")
+c2.metric(L("Margen bruto","Gross margin"),f"{gp/sales:.1%}")
+c3.metric(L("Contribución operativa","Operating contribution"),f"MXN {selected['Contribución operativa'].sum()/1e6:,.2f}M")
+c4.metric(L("Nivel de surtido","Demand fill rate"),f"{fulfilled/requested:.2%}")
+
+tab1,tab2,tab3=st.tabs([
+    L("Desempeño por sucursal","Branch performance"),
+    L("Alertas de gestión","Management signals"),
+    L("Sensibilidad del escenario","Scenario sensitivity")
+])
 with tab1:
-    st.plotly_chart(px.bar(s,x="Branch",y=["Net sales","Gross profit","Operating contribution"],barmode="group",title="Synthetic annual financial performance"),use_container_width=True)
-    st.dataframe(s[["Branch","Net sales","Gross profit","Operating contribution","Attainment","Fill rate"]],hide_index=True,use_container_width=True)
-    st.caption("Operating contribution = net sales − synthetic cost of goods sold − modeled operating expenses. This is not cash flow or audited profit.")
+    labels=["Ventas netas","Utilidad bruta","Contribución operativa"]
+    en={"Ventas netas":"Net sales","Utilidad bruta":"Gross profit","Contribución operativa":"Operating contribution"}
+    display=selected.rename(columns=en) if lang=="English" else selected
+    fields=[en[x] for x in labels] if lang=="English" else labels
+    fig=px.bar(display,x="Sucursal",y=fields,barmode="group",title=L(
+        "Desempeño financiero anual de cuatro sucursales ficticias",
+        "Annual financial performance of four fictional branches"
+    ),labels={"Sucursal":L("Sucursal","Branch"),"value":L("MXN","MXN"),"variable":L("Indicador","Metric")})
+    st.plotly_chart(fig,use_container_width=True)
+    columns=["Sucursal","Ventas netas","Utilidad bruta","Contribución operativa","Cumplimiento","Nivel de surtido"]
+    report=selected[columns].copy()
+    if lang=="English":
+        report=report.rename(columns={
+            "Sucursal":"Branch","Ventas netas":"Net sales","Utilidad bruta":"Gross profit",
+            "Contribución operativa":"Operating contribution","Cumplimiento":"Attainment",
+            "Nivel de surtido":"Fill rate"})
+    st.dataframe(report,hide_index=True,use_container_width=True)
+    st.caption(L(
+        "La contribución operativa es ventas menos costo de venta y gastos operativos simulados. No representa flujo de caja ni utilidad auditada.",
+        "Operating contribution is sales less synthetic cost of goods sold and operating expenses. It is not cash flow or audited profit."
+    ))
+
 with tab2:
     alerts=[]
-    for _,r in s.iterrows():
-        if r["Attainment"] < target/100: alerts.append((r["Branch"],"Sales below budget target",round(r["Attainment"]*100,2),target))
-        if r["Fill rate"] < fill/100: alerts.append((r["Branch"],"Fill rate below threshold",round(r["Fill rate"]*100,2),fill))
-    st.write(f"{len(alerts)} screening alert(s) under your targets.")
-    if alerts: st.dataframe(pd.DataFrame(alerts,columns=["Branch","Signal","Observed %","Threshold %"]),hide_index=True,use_container_width=True)
-    else: st.success("No selected branch breached these two thresholds.")
-    st.caption("Screening only: alerts are not root-cause or financial-impact estimates.")
+    for _,r in selected.iterrows():
+        if r["Cumplimiento"]<target/100:
+            alerts.append((r["Sucursal"],L("Ventas bajo la meta","Sales below target"),round(100*r["Cumplimiento"],2),target))
+        if r["Nivel de surtido"]<fill/100:
+            alerts.append((r["Sucursal"],L("Surtido bajo la meta","Fill rate below target"),round(100*r["Nivel de surtido"],2),fill))
+    st.write(L(f"{len(alerts)} alertas según los umbrales seleccionados.",f"{len(alerts)} alerts under the selected thresholds."))
+    if alerts:
+        st.dataframe(pd.DataFrame(alerts,columns=[
+            L("Sucursal","Branch"),L("Indicador","Indicator"),L("Valor observado (%)","Observed (%)"),
+            L("Umbral (%)","Threshold (%)")
+        ]),hide_index=True,use_container_width=True)
+    else:
+        st.success(L("Sin alertas para las sucursales seleccionadas.","No alerts for the selected branches."))
+    st.caption(L(
+        "Las alertas señalan diferencias frente a metas ajustables. No identifican causas ni cuantifican impactos causales.",
+        "Alerts flag deviations from adjustable targets. They do not establish causes or quantify causal effects."
+    ))
+
 with tab3:
-    st.info("The sensitivity below uses the approved **full-network, full-year** shelf-only counterfactual. It is intentionally NOT recalculated for branch filters.")
-    realized=st.slider("Gross-profit realization",0,100,100)/100
-    extra_per_unit=st.slider("Additional handling cost / recovered unit (MXN)",0.0,100.0,0.0)
-    fixed=st.number_input("Additional fixed cost (MXN)",min_value=0.0,value=0.0,step=1000.0)
-    contribution=166128.79*realized-67621.34-4004*extra_per_unit-fixed
+    st.info(L(
+        "Escenario de reposición de anaquel, calculado para toda la red y todo 2025. Los filtros por sucursal no modifican este resultado.",
+        "Shelf replenishment scenario for the full network and all of 2025. Branch filters do not change this result."
+    ))
+    realized=st.slider(L("Factor de realización de utilidad bruta (%)","Gross profit realization factor (%)"),0,100,100)/100
+    extra=st.slider(L("Costo adicional por unidad recuperada (MXN)","Extra cost per recovered unit (MXN)"),0.0,100.0,0.0)
+    fixed=st.number_input(L("Costo fijo adicional (MXN)","Additional fixed cost (MXN)"),min_value=0.0,value=0.0,step=1000.0)
+    contribution=166128.79*realized-67621.34-4004*extra-fixed
     a,b,c=st.columns(3)
-    a.metric("Recovered units","4,004")
-    b.metric("Displaced units","2,525")
-    c.metric("Illustrative incremental contribution",f"MXN {contribution:,.2f}")
-    st.caption("Conditional synthetic accounting bridge: MXN 166,128.79 incremental gross profit, MXN 67,621.34 modeled handling before extra costs. Original baseline MXN 98,507.45. Excludes unmodeled costs, does not rerun inventory and is not observed savings.")
+    a.metric(L("Unidades recuperadas","Recovered units"),"4,004")
+    b.metric(L("Unidades desplazadas","Displaced units"),"2,525")
+    c.metric(L("Contribución incremental ilustrativa","Illustrative incremental contribution"),f"MXN {contribution:,.2f}")
+    st.caption(L(
+        "Puente contable sintético: MXN 166,128.79 de utilidad bruta incremental menos MXN 67,621.34 de manejo, antes de costos adicionales. La contribución base es MXN 98,507.45. No equivale a un ahorro observado ni vuelve a simular inventarios.",
+        "Synthetic accounting bridge: MXN 166,128.79 incremental gross profit less MXN 67,621.34 modeled handling, before additional costs. Base contribution is MXN 98,507.45. This is not observed savings and does not rerun inventory."
+    ))
 st.divider()
-st.caption("Portfolio demonstration · Fictional branches and products · No company affiliation · No live ERP/POS feed · Full technical case available separately.")
+st.caption(L(
+    "Caso de portafolio con información ficticia. Sin afiliación comercial. Sin integración con sistemas reales ni actualización automática.",
+    "Portfolio case using fictional information. No commercial affiliation. No live system integration or automated refresh."
+))
