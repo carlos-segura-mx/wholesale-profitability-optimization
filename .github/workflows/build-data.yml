@@ -44,7 +44,7 @@ jobs:
       - name: Build deterministic synthetic operation
         run: python scripts/generate_case_data.py --output generated_data
       - name: Run chronological scenario model
-        run: python scripts/replay_case.py --data generated_data --output generated_scenario
+        run: python scripts/replay_case.py --data generated_data --output generated_scenario --extra-dispatch 0
       - name: Verify the 11 original files and compress
         run: |
           python - <<'PY'
