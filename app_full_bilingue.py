@@ -41,8 +41,8 @@ missing = [
 if missing:
     st.title(T("Panel gerencial: versión completa", "Management cockpit: complete edition"))
     st.warning(T(
-        "El código de los cuatro módulos está preparado, pero falta cargar el conjunto de datos sintéticos del paquete v0.7. Esta aplicación no sustituye esos datos por estimaciones.",
-        "The four-module code is prepared, but the synthetic v0.7 data bundle is not yet in the repository. This app does not replace those files with estimates."
+        "Para consultar los cuatro módulos hace falta incorporar los archivos de datos detallados. Mientras tanto, puedes usar la vista ejecutiva.",
+        "The four modules need the detailed dataset to run. The executive view is available in the meantime."
     ))
     st.code("\n".join(missing), language="text")
     st.link_button(
@@ -86,8 +86,8 @@ st.caption(T(
     "Quantitative case with four fictional branches and one fictional distribution center, 2025"
 ))
 st.info(T(
-    "Los datos son enteramente sintéticos. Los presupuestos y gastos corresponden a sucursales completas y no se distribuyen por categoría.",
-    "All data are synthetic. Budgets and expenses apply to entire branches and are not allocated to categories."
+    "Modelo con datos sintéticos. Los presupuestos y gastos corresponden a sucursales completas, por lo que no se asignan a categorías individuales.",
+    "This model uses synthetic data. Budgets and expenses are recorded at branch level, so they are not allocated to individual categories."
 ))
 
 with st.sidebar:
@@ -103,8 +103,8 @@ with st.sidebar:
     sales_threshold = st.slider(T("Cumplimiento de presupuesto (%)", "Budget attainment (%)"), 80, 120, 100) / 100
     fill_threshold = st.slider(T("Nivel de surtido (%)", "Fill rate (%)"), 85, 100, 97) / 100
     st.caption(T(
-        "Los umbrales sirven para identificar alertas. No son metas reales aprobadas por una empresa.",
-        "These thresholds screen for exceptions. They are not real company-approved targets."
+        "Los umbrales ayudan a detectar diferencias en los indicadores. Puedes ajustarlos para explorar distintos criterios de gestión.",
+        "These thresholds help flag differences in performance. Adjust them to explore different management criteria."
     ))
 
 if not chosen_branches or not chosen_categories:
@@ -303,6 +303,6 @@ else:
 
 st.divider()
 st.caption(T(
-    "Caso técnico con datos ficticios. Sin afiliación con Casa Santos Lugo ni otra empresa. Sin conexión con un sistema de ventas en tiempo real.",
-    "Technical case using fictional data. Not affiliated with Casa Santos Lugo or any other business. No live point-of-sale connection."
+    "Ejercicio de análisis comercial con datos sintéticos de 2025. No utiliza información en tiempo real.",
+    "Commercial analytics exercise using synthetic 2025 data. No live operational data is used."
 ))
