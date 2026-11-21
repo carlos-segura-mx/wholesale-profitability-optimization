@@ -1,52 +1,54 @@
 # Wholesale Profitability Optimization
 
-**Portfolio case | CS Intelligence | November 2026**
+[Español](README.es.md) | [Live dashboard](https://wholesale-profitability-optimization-uenabzltjvquoxm2k5yg2p.streamlit.app/) | [Source code](../)
 
-This project looks at decisions a multi-branch wholesaler faces every day: protecting margins, meeting demand, managing inventory, and separating an operational improvement from a verified financial benefit.
+## The starting point
 
-The business, its four branches, distribution center, products, and transactions are fictional. No internal files from Casa Santos Lugo or any other business were used.
+More sales do not always mean more profit. A wholesaler can sell products at a healthy margin and still lose opportunities when stock is unavailable. Replenishing inventory may recover sales, but it also adds costs and can shift demand away from other purchases.
 
-## Live demonstration
+I built this case to look at those trade-offs quantitatively rather than treating each KPI in isolation. The main question is how much value better product availability can create once operating costs and displacement of existing sales are taken into account.
 
-[Open the Streamlit app](https://wholesale-profitability-optimization-uenabzltjvquoxm2k5yg2p.streamlit.app/)
+## How I approached it
 
-The public application currently provides an aggregated executive view, including branch KPIs, adjustable management alerts, and scenario sensitivity. The bilingual source is available in [preview_bilingue.py](../preview_bilingue.py). This shorter preview is not presented as the complete management cockpit.
+I modeled a wholesale operation with four branches, one distribution center, 120 products and a full year of transactions. All data are synthetic and represent 2025.
 
-The original technical case contains four modules:
+The analysis brings together sales, cost of goods sold, margins, budgets, requested and fulfilled demand, inventory and operating expenses. I then developed a shelf-replenishment scenario and examined its financial contribution.
 
-1. Executive overview. Sales, margins, contribution, budgets, and management alerts.
-2. Commercial performance. Categories, products, and branch comparisons.
-3. Inventory and availability. Fulfilled demand, shortages, and stock balances.
-4. Scenario lab. Shelf replenishment and additional-cost sensitivity.
+The dashboard covers four areas: executive performance, commercial results, inventory and availability, and scenario analysis.
 
-Publishing all four modules at the original level of detail still requires integrating the full synthetic data files and testing the cloud application.
+## What the model shows
 
-## Reference figures
+In this exercise, net sales total approximately **MXN 54.42 million**, with a **33.3% gross margin** and a **94.90% demand fill rate**.
 
-In the synthetic 2025 dataset, net sales are approximately **MXN 54.42 million**, with a **94.90% demand fill rate**. The shelf replenishment intervention recovers 4,004 units, displaces 2,525, and produces 1,479 additional net units.
+The replenishment scenario recovers **4,004 units** but also displaces **2,525 units** from other sales. That leaves **1,479 additional net units**.
 
-The model's full-year accounting bridge estimates **MXN 98,507.45 in incremental contribution before unmodeled costs**. This is not observed profit, a causal effect, or a commercial forecast. Filtered views do not carry the same accounting assurance as the full-year network result.
+After the handling costs included in the model, estimated full-year incremental contribution comes to **MXN 98,507.45**, before costs that the model does not capture.
 
-## Run the executive preview
+That distinction matters. Recovering sales does not mean all of those sales become profit. Changes in realization assumptions, handling costs or additional expenses change the outcome. Under some conditions, the estimated contribution turns negative.
+
+## Explore the dashboard
+
+[**Open the Streamlit app**](https://wholesale-profitability-optimization-uenabzltjvquoxm2k5yg2p.streamlit.app/)
+
+The published version lets you compare branches, adjust alert thresholds and explore scenario sensitivity. It is an executive view based on aggregated annual figures.
+
+The four-module dashboard code is also available in this repository, but the detailed version still needs its data files and cloud testing. I would rather make that distinction clear than describe a partial view as a finished release.
+
+## Scope and limitations
+
+This is a portfolio case built entirely on synthetic data. It does not describe the operations or results of an actual business. The simulation helps examine management decisions and accounting relationships; it does not demonstrate realized savings or causal impact.
+
+The financial reconciliation covers the full network and year. Filtered scenario views are approximations and do not have the same independent reconciliation.
+
+## Tools and local setup
+
+I used Python, pandas, Plotly and Streamlit. To run the available dashboard:
 
 ```bash
 python -m pip install -r requirements.txt
-streamlit run preview_bilingue.py
+streamlit run preview.py
 ```
 
-Choose **Español** or **English** in the sidebar. The preview uses precomputed figures from a fully synthetic exercise. It has no live connection to a point of sale, inventory system, or ERP.
+The app supports Spanish and English. Instructions for deploying the full version are in the separate [technical notes](DEPLOY.en.md).
 
-## Publication standards
-
-This repository separates public aggregated results from the underlying technical case files. It does not contain commercial records from real companies. Scenario assumptions and limitations are made explicit, without attributing results to an existing organization.
-
-**Author:** Carlos Segura | CS Intelligence
-
-
-## Enable all four modules
-
-The complete dashboard code is in [app_full_bilingue.py](../app_full_bilingue.py). It becomes active automatically once all eleven verified synthetic data files are available in the repository.
-
-Upload **PORT01_PUBLIC_SYNTHETIC_DATA.zip** to the root of the `main` branch using GitHub's *Add file > Upload files* option. The [publish-data.yml](../.github/workflows/publish-data.yml) workflow checks the SHA-256 hashes, writes compressed CSV files, and removes the ZIP from the latest branch state. The existing Streamlit URL can then serve the four-module application after the deployment updates.
-
-Only use the validated synthetic data archive prepared for this case. Do not upload client files or the private Santos Lugo pricing lab. If validation fails, the app continues to show the shorter executive preview.
+**Carlos Segura** | CS Intelligence
