@@ -30,9 +30,9 @@ Ese último punto es clave: recuperar ventas no equivale automáticamente a gene
 
 [**Abrir la aplicación en Streamlit**](https://wholesale-profitability-optimization-uenabzltjvquoxm2k5yg2p.streamlit.app/)
 
-La versión publicada permite comparar sucursales, ajustar umbrales de alerta y explorar la sensibilidad del escenario. Es una vista ejecutiva con cifras anuales agregadas.
+El dashboard incluye los cuatro módulos del caso. Puedo comparar resultados por mes, sucursal y categoría, revisar productos e inventario, ajustar umbrales de gestión y explorar el efecto económico de una intervención de reposición.
 
-El código del tablero de cuatro módulos también está en el repositorio, pero su versión con información detallada todavía necesita completar la carga de datos y las pruebas en la nube. Prefiero distinguir ambas versiones antes que presentar una vista parcial como si fuera el producto terminado.
+Los datos de detalle ya forman parte del repositorio. La aplicación y sus cuatro módulos superaron las pruebas funcionales automatizadas en español e inglés.
 
 ## Alcance del ejercicio
 
@@ -42,13 +42,13 @@ La conciliación económica corresponde al escenario completo de la red y del a�
 
 ## Herramientas y ejecución
 
-Utilicé Python, pandas, Plotly y Streamlit. Para reproducir la vista disponible:
+Utilicé Python, pandas, Plotly y Streamlit. Para ejecutar el dashboard completo:
 
 ```bash
 python -m pip install -r requirements.txt
 streamlit run preview.py
 ```
 
-La aplicación permite cambiar entre español e inglés. Las instrucciones de despliegue y los archivos requeridos para la versión completa están documentados aparte en las [notas técnicas](DEPLOY.es.md).
+La aplicación permite cambiar entre español e inglés. La generación de los datos y las comprobaciones de integridad están explicadas en las [notas técnicas](DEPLOY.es.md).
 
 **Carlos Segura** | CS Intelligence
