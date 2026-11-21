@@ -12,12 +12,12 @@ def L(es,en):
 
 st.title(L("Optimización de rentabilidad mayorista","Wholesale Profitability Optimization"))
 st.caption(L(
-    "CS Intelligence | Vista ejecutiva interactiva | 2025 | Datos 100 % sintéticos | Sin relación con empresas reales",
-    "CS Intelligence | Interactive executive preview | 2025 | 100% synthetic data | No connection to real businesses"
+    "CS Intelligence | Vista ejecutiva | Modelo sintético de 2025",
+    "CS Intelligence | Executive view | Synthetic 2025 model"
 ))
-st.warning(L(
-    "Esta versión usa cifras anuales agregadas. El análisis transaccional, los cortes de inventario y la simulación operativa del caso completo aún no están disponibles aquí.",
-    "This preview uses aggregated annual figures. Transaction-level analysis, inventory snapshots, and the full operational simulation are not yet available here."
+st.caption(L(
+    "Vista ejecutiva con cifras anuales por sucursal. El detalle de productos e inventario forma parte de la versión completa.",
+    "Executive view with annual branch figures. Product and inventory details are part of the full version."
 ))
 
 rows=[
@@ -123,6 +123,6 @@ with tab3:
     ))
 st.divider()
 st.caption(L(
-    "Caso de portafolio con información ficticia. Sin afiliación comercial. Sin integración con sistemas reales ni actualización automática.",
-    "Portfolio case using fictional information. No commercial affiliation. No live system integration or automated refresh."
+    "Datos sintéticos de 2025. Los escenarios dependen de los supuestos utilizados.",
+    "Synthetic 2025 data. Scenario outcomes depend on the assumptions used."
 ))
