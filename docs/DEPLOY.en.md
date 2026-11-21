@@ -1,44 +1,44 @@
-# Dashboard deployment and data files
+# Dashboard data and deployment
 
 [Español](DEPLOY.es.md) | [Case overview](README.en.md)
 
-## Current status
+## Application
 
-The public entrypoint is `preview.py`. When detailed data files are missing, it runs an aggregated executive view. Once all eleven required files are available, it launches the four-module dashboard from `app_full_bilingue.py`.
+This repository contains the complete four-module Management Cockpit using synthetic 2025 data. Streamlit starts from `preview.py`, which loads `app_full_bilingue.py` when it finds the eleven detailed data files. Those files are already committed to the `main` branch.
 
-Both versions let you select Spanish or English. The dataset represents a simulated wholesale operation in 2025.
+The application supports Spanish and English. Its modules cover executive results, commercial performance, inventory and scenario analysis.
 
 ## Run locally
 
-Python 3.10 or later is required.
+With Python 3.10 or later:
 
 ```bash
 python -m pip install -r requirements.txt
 streamlit run preview.py
 ```
 
-The aggregated view does not require external data files. The full dashboard needs compressed CSVs in `data/` and `results_shelf_only/`.
+There is no separate dataset download. Compressed CSV files are included in `data/` and `results_shelf_only/`, and pandas reads them directly.
 
-## Add the detailed dataset
+## Reproducibility and checks
 
-`PORT01_PUBLIC_SYNTHETIC_DATA.zip` contains eleven synthetic CSV files and serves as the input for the GitHub Actions publishing workflow.
+The data are built from two scripts:
 
-1. Upload the validated ZIP to the root of the `main` branch.
-2. Open [publish-data.yml](../.github/workflows/publish-data.yml) under **Actions**.
-3. Confirm that SHA-256 checks and the sales and fill-rate controls pass.
-4. Confirm that the workflow commits the compressed CSV files and removes the ZIP from the current branch state.
-5. Check that the four Streamlit modules load, filters respond and scenario outputs match the selected scope.
+- `scripts/generate_case_data.py`: builds the synthetic operation from a fixed seed.
+- `scripts/replay_case.py`: reproduces the shelf-replenishment scenario with `--extra-dispatch 0`.
 
-The release is not complete until these checks pass. If the required files are missing, the app continues to show the smaller executive view. Do not mix these synthetic data with unrelated datasets.
+[build-data.yml](../.github/workflows/build-data.yml) regenerates the data and checks the SHA-256 hashes of all eleven original files before publishing them. The approved scenario is shelf replenishment only, without extraordinary distribution center dispatches.
 
-## Repository files
+[checks.yml](../.github/workflows/checks.yml) compiles the source, installs dependencies and runs functional checks on all four modules and both languages.
 
-- `preview.py`: Streamlit entrypoint and version selection.
-- `preview_bilingue.py`: standalone executive view.
-- `app_full_bilingue.py`: four-module analysis.
-- `scripts/import_public_data.py`: data verification and import.
-- `.github/workflows/`: source checks and data publishing.
+Generation and automated tests passed on November 21, 2026. Those checks ran on GitHub Actions. Visual review of the public Streamlit instance is handled separately.
 
-**Status:** The executive preview has been observed running online. The full dashboard still requires data loading and visual testing.
+## Main files
+
+- `preview.py`: entrypoint and version selection.
+- `app_full_bilingue.py`: complete dashboard.
+- `preview_bilingue.py`: aggregated executive fallback.
+- `data/*.csv.gz`: synthetic commercial and inventory data.
+- `results_shelf_only/ticket_deltas.csv.gz`: transaction-level scenario outputs.
+- `tests/test_dashboard.py`: module and language checks.
 
 Carlos Segura | CS Intelligence
