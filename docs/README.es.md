@@ -41,3 +41,12 @@ Selecciona **Español** o **English** desde la barra lateral. La demostración u
 El repositorio separa los resultados agregados que pueden mostrarse públicamente de los datos técnicos del caso. No incluye información comercial de empresas reales. Los escenarios se documentan con sus supuestos y límites, sin atribuir resultados a una organización existente.
 
 **Autor:** Carlos Segura | CS Intelligence
+
+
+## Activar los cuatro módulos
+
+El código completo está en [app_full_bilingue.py](../app_full_bilingue.py). Se activa automáticamente cuando el repositorio contiene los once archivos sintéticos verificados.
+
+Para incorporar esos archivos, carga **PORT01_PUBLIC_SYNTHETIC_DATA.zip** en la raíz de la rama `main`, mediante la opción *Add file > Upload files* de GitHub. El flujo [publish-data.yml](../.github/workflows/publish-data.yml) verifica las huellas SHA-256, genera archivos CSV comprimidos y retira el ZIP del último estado de la rama. El mismo enlace de Streamlit puede mostrar los cuatro módulos después de actualizarse el despliegue.
+
+El archivo ZIP debe proceder del paquete sintético validado de este caso. No reemplazarlo por documentos de clientes ni por el laboratorio privado de Santos Lugo. Si falla alguna comprobación, la aplicación mantiene la vista ejecutiva resumida.
