@@ -41,4 +41,4 @@ La generación y las pruebas se completaron correctamente el 21 de noviembre de 
 - `results_shelf_only/ticket_deltas.csv.gz`: resultados por transacción del escenario.
 - `tests/test_dashboard.py`: prueba funcional de módulos e idiomas.
 
-Carlos Segura | CS Intelligence
+Carlos Segura

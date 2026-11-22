@@ -46,4 +46,4 @@ streamlit run preview.py
 
 [Notas de despliegue (ES)](docs/DEPLOY.es.md) | [Deployment notes (EN)](docs/DEPLOY.en.md)
 
-Carlos Segura | CS Intelligence
+Carlos Segura

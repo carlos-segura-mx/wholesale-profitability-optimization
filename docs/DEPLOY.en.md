@@ -41,4 +41,4 @@ Generation and automated tests passed on November 21, 2026. Those checks ran on 
 - `results_shelf_only/ticket_deltas.csv.gz`: transaction-level scenario outputs.
 - `tests/test_dashboard.py`: module and language checks.
 
-Carlos Segura | CS Intelligence
+Carlos Segura

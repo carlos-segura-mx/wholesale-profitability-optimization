@@ -51,4 +51,4 @@ streamlit run preview.py
 
 The app supports Spanish and English. The data-generation process and integrity checks are documented in the [technical notes](DEPLOY.en.md).
 
-**Carlos Segura** | CS Intelligence
+**Carlos Segura**

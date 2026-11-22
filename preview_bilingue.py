@@ -12,8 +12,8 @@ def L(es,en):
 
 st.title(L("Optimización de rentabilidad mayorista","Wholesale Profitability Optimization"))
 st.caption(L(
-    "CS Intelligence | Vista ejecutiva | Modelo sintético de 2025",
-    "CS Intelligence | Executive view | Synthetic 2025 model"
+    "Carlos Segura | Vista ejecutiva | Modelo sintético de 2025",
+    "Carlos Segura | Executive view | Synthetic 2025 model"
 ))
 st.caption(L(
     "Vista ejecutiva con cifras anuales por sucursal. El detalle de productos e inventario forma parte de la versión completa.",
