@@ -51,4 +51,8 @@ streamlit run preview.py
 
 La aplicación permite cambiar entre español e inglés. La generación de los datos y las comprobaciones de integridad están explicadas en las [notas técnicas](DEPLOY.es.md).
 
+## Derechos
+
+No se ha seleccionado una licencia open-source separada para el código original de este repositorio.
+
 **Carlos Segura**
