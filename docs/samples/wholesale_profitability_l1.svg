@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="600" viewBox="0 0 960 600" role="img" aria-labelledby="title desc">
+<title id="title">Wholesale profitability commercial sample</title>
+<desc id="desc">Synthetic wholesale profitability and replenishment scenario metrics.</desc>
+<rect width="960" height="600" fill="#ffffff"/>
+<text x="55" y="58" font-family="Arial, sans-serif" font-size="30" font-weight="700" fill="#111111">Wholesale Profitability Optimization</text>
+<text x="55" y="90" font-family="Arial, sans-serif" font-size="18" fill="#444444">Synthetic commercial sample | Muestra comercial sintética</text>
+<rect x="55" y="125" width="255" height="100" rx="10" fill="#f3f3f3"/>
+<text x="78" y="162" font-family="Arial, sans-serif" font-size="16" fill="#555555">Net sales / Ventas netas</text>
+<text x="78" y="202" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#111111">MXN 54.42M</text>
+<rect x="352" y="125" width="255" height="100" rx="10" fill="#f3f3f3"/>
+<text x="375" y="162" font-family="Arial, sans-serif" font-size="16" fill="#555555">Gross margin / Margen</text>
+<text x="375" y="202" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#111111">33.3%</text>
+<rect x="650" y="125" width="255" height="100" rx="10" fill="#f3f3f3"/>
+<text x="673" y="162" font-family="Arial, sans-serif" font-size="16" fill="#555555">Fill rate / Surtido</text>
+<text x="673" y="202" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#111111">94.90%</text>
+<text x="55" y="285" font-family="Arial, sans-serif" font-size="20" font-weight="700" fill="#111111">Scenario bridge | Puente del escenario</text>
+<rect x="80" y="330" width="250" height="54" rx="7" fill="#5f7f6f"/>
+<text x="95" y="365" font-family="Arial, sans-serif" font-size="20" font-weight="700" fill="#ffffff">Recovered +4,004</text>
+<rect x="355" y="330" width="220" height="54" rx="7" fill="#8b6f6f"/>
+<text x="370" y="365" font-family="Arial, sans-serif" font-size="20" font-weight="700" fill="#ffffff">Displaced -2,525</text>
+<rect x="600" y="330" width="220" height="54" rx="7" fill="#4f6b8a"/>
+<text x="615" y="365" font-family="Arial, sans-serif" font-size="20" font-weight="700" fill="#ffffff">Net +1,479</text>
+<rect x="55" y="425" width="850" height="90" rx="10" fill="#e9eef3"/>
+<text x="80" y="462" font-family="Arial, sans-serif" font-size="18" fill="#333333">Modeled annual incremental contribution</text>
+<text x="80" y="497" font-family="Arial, sans-serif" font-size="30" font-weight="700" fill="#111111">MXN 98,507.45</text>
+<text x="55" y="558" font-family="Arial, sans-serif" font-size="16" fill="#666666">Synthetic scenario. Contribution is not observed profit or a causal estimate.</text>
+</svg>
