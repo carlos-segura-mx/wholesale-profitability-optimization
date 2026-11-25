@@ -1,4 +1,4 @@
-name: Dashboard checks
+name: Wholesale Profitability Optimization QA
 on:
   push:
     branches: [main]
