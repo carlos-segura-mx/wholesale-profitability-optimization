@@ -46,4 +46,10 @@ streamlit run preview.py
 
 [Notas de despliegue (ES)](docs/DEPLOY.es.md) | [Deployment notes (EN)](docs/DEPLOY.en.md)
 
+## Derechos | Rights
+
+**ES.** No se ha seleccionado una licencia open-source separada para el código original de este repositorio.
+
+**EN.** No separate open-source license has been selected for the original code in this repository.
+
 Carlos Segura
