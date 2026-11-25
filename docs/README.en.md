@@ -51,4 +51,8 @@ streamlit run preview.py
 
 The app supports Spanish and English. The data-generation process and integrity checks are documented in the [technical notes](DEPLOY.en.md).
 
+## Rights
+
+No separate open-source license has been selected for the original code in this repository.
+
 **Carlos Segura**
